@@ -3,7 +3,7 @@ from pynput import mouse, keyboard
 
 def get_coord(coords):
     def on_click(x, y, button, pressed):
-        if pressed:
+        if not pressed:
             coords.append((x, y))
             return False
 
