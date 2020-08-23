@@ -9,7 +9,8 @@ mouse = Controller()
 
 class Card:
     def __init__(self, pos, first_card_coords, delta, is_first_of_pair):
-        self.img_width = self.img_height = 65
+        self.img_width = 55
+        self.img_height = 55
         self.pos = pos
         self.coords = (first_card_coords[0] + delta[0] * pos[0],
                        first_card_coords[1] + delta[1] * pos[1])
@@ -17,10 +18,10 @@ class Card:
         self.matched = False
 
     def flip(self):
-        time.sleep(1.2 if self.is_first_of_pair else 0)
+        if self.is_first_of_pair:
+            time.sleep(1)
         mouse.position = self.coords
-        mouse.press(Button.left)
-        mouse.release(Button.left)
+        mouse.click(Button.left, 2)
 
     def flip_and_save(self):
         self.flip()
@@ -42,6 +43,8 @@ def generate_cards(cards, first_card_coords, game_dim, delta):
             cards.append(card)
             is_first_of_pair = not is_first_of_pair
 
+    time.sleep(1)
+
 
 def images_difference(img1, img2):
     return abs(imagehash.average_hash(img1) - imagehash.average_hash(img2))
@@ -58,6 +61,7 @@ def clc_diffs(diffs, cards):
     diffs.sort(key=sort_comp)
 
 def match(cards, diffs):
+    time.sleep(1)
     for x in diffs:
         if x[1].matched or x[2].matched:
             continue
